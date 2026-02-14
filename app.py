@@ -12,7 +12,7 @@ def sanitize_filename(title):
 
 def get_video_info(url):
     """Fetch video metadata using yt-dlp."""
-    cmd = ['yt-dlp', '--dump-json', '--no-playlist', url]
+    cmd = ['yt-dlp', '--dump-json', url]
     result = subprocess.run(cmd, capture_output=True, text=True)
     if result.returncode != 0:
         raise Exception("Failed to fetch video info")
@@ -55,7 +55,7 @@ def download():
 
     if format_choice == 'mp4':
         filename = f"{title}.mp4"
-        cmd = ['yt-dlp', '-f', 'best', '-o', '-', '--no-playlist', url]
+        cmd = ['yt-dlp', '-f', 'best', '-o', '-', url]
         return stream_ytdlp_command(cmd, filename)
 
     elif format_choice == 'mp3':
@@ -66,7 +66,6 @@ def download():
             '--extract-audio',
             '--audio-format', 'mp3',
             '-o', '-',
-            '--no-playlist',
             url
         ]
         return stream_ytdlp_command(cmd, filename)
